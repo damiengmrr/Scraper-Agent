@@ -210,10 +210,21 @@ export default function Home() {
   }, [messages]);
 
   return (
-    <div className="flex h-screen w-full flex-col bg-background text-foreground md:flex-row font-sans">
-      <div className="flex w-full flex-col border-r border-border md:h-full md:w-[400px] lg:w-[450px] overflow-hidden">
-        <div className="flex h-16 items-center border-b px-6 bg-muted/30 shrink-0">
-          <h1 className="text-xl font-bold tracking-tight text-primary">Shaarp Scraper AI</h1>
+    <div className="relative flex h-screen w-full flex-col overflow-hidden text-foreground md:flex-row font-sans">
+      <div className="pointer-events-none absolute inset-0 night-grid opacity-35" />
+      <div className="pointer-events-none absolute -top-40 left-10 h-96 w-96 rounded-full bg-blue-500/20 blur-[120px]" />
+      <div className="pointer-events-none absolute -bottom-44 right-8 h-96 w-96 rounded-full bg-cyan-400/15 blur-[120px]" />
+
+      <div className="z-10 m-3 flex w-full flex-col overflow-hidden rounded-3xl glass-panel md:m-4 md:h-[calc(100vh-2rem)] md:w-[410px] lg:w-[470px]">
+        <div className="flex h-20 items-center justify-between border-b border-border/60 px-6 shrink-0">
+          <div>
+            <p className="text-xs uppercase tracking-[0.22em] text-blue-200/70">Shaarp Agent</p>
+            <h1 className="text-2xl font-semibold tracking-tight text-blue-100">Scraper IA</h1>
+          </div>
+          <div className="flex items-center gap-2 rounded-full border border-blue-300/30 bg-blue-500/10 px-3 py-1 text-xs text-blue-100">
+            <span className={`h-2.5 w-2.5 rounded-full bg-sky-300 ${isLoading ? 'pulse-dot' : ''}`} />
+            {isLoading ? 'Analyse active' : 'Prêt'}
+          </div>
         </div>
         <Chat 
            messages={messages} 
@@ -221,8 +232,8 @@ export default function Home() {
            isLoading={isLoading} 
         />
       </div>
-      <div className="flex flex-1 flex-col overflow-hidden bg-muted/10">
-        {progress.active && (
+      <div className="z-10 mb-3 mr-3 flex flex-1 flex-col overflow-hidden rounded-3xl glass-panel md:mb-4 md:mr-4 md:mt-4">
+        {(progress.active || progress.phase === 'done' || progress.phase === 'error') && (
           <ScrapeProgress 
             status={progress.status}
             current={progress.current}
@@ -230,7 +241,12 @@ export default function Home() {
             phase={progress.phase}
           />
         )}
-        <ExhibitorsTable exhibitors={exhibitors} />
+        <ExhibitorsTable
+          exhibitors={exhibitors}
+          isScraping={progress.active}
+          progressCurrent={progress.current}
+          progressTotal={progress.total}
+        />
       </div>
     </div>
   );

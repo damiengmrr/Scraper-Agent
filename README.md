@@ -38,7 +38,8 @@ L'agent ne se contente pas de lire le texte. Il analyse les métadonnées des ic
 
 1. **Cloner le dépôt** :
    ```bash
-   git clone 
+   git clone https://github.com/supermedmed-hash/Challenge-48H.git
+   cd shaarp-scraper
    ```
 
 2. **Installer les dépendances** :
@@ -74,3 +75,5 @@ L'agent ne se contente pas de lire le texte. Il analyse les métadonnées des ic
 - **`DEV`** : Branche de développement pour les itérations UI/UX et les tests de nouvelles fonctionnalités.
 
 ---
+
+*Développé avec ❤️ pour Shaarp par Antigravity Agent.*

@@ -25,9 +25,6 @@ async function autoScroll(page: Page) {
   });
 }
 
-// ========================================
-// Helper: Clean page of common overlays (Cookies, modales)
-// ========================================
 async function cleanPageObstacles(page: Page) {
   try {
     await page.evaluate(() => {
@@ -42,16 +39,14 @@ async function cleanPageObstacles(page: Page) {
           elements.forEach(el => (el as HTMLElement).style.display = 'none');
         } catch {}
       });
-      // Force scrollability in case modale locked it
+
       document.body.style.overflow = 'auto';
       document.documentElement.style.overflow = 'auto';
     });
   } catch {}
 }
 
-// ========================================
-// Phase 0: Structure Analysis via LLM
-// ========================================
+// structure
 type NavType = 'pagination' | 'infiniteScroll' | 'loadMore';
 
 async function analyzePageStructure(page: Page): Promise<{ exhibitorSelector: string, nextSelector: string, navType: NavType }> {
@@ -90,9 +85,7 @@ async function analyzePageStructure(page: Page): Promise<{ exhibitorSelector: st
   };
 }
 
-// ========================================
-// Phase 1: Collect exhibitor links (Universal v2)
-// ========================================
+// collect
 async function* collectExhibitorLinksUniversal(
   page: Page,
   baseUrl: string,
@@ -112,7 +105,7 @@ async function* collectExhibitorLinksUniversal(
     await autoScroll(page);
     await randomDelay(1500, 2500);
 
-    // Smart extraction: Handle empty links (overlays) by looking at neighbors
+    // extraction
     const extracted = await page.evaluate((sel: string) => {
       try {
         const items = Array.from(document.querySelectorAll(sel));
@@ -120,7 +113,7 @@ async function* collectExhibitorLinksUniversal(
           const href = (el as HTMLAnchorElement).href;
           let name = (el as HTMLElement).innerText?.trim();
           
-          // If empty text (common for overlays), look at parent container
+          // If empty text
           if (!name || name.length < 2) {
             const container = el.closest('div, li, article');
             name = container ? (container as HTMLElement).innerText?.split('\n')[0].trim() : "Inconnu";
@@ -140,7 +133,7 @@ async function* collectExhibitorLinksUniversal(
       }
     }
 
-    // Stop if we don't find new links (for Infinite Scroll / Load More)
+    // Stop if we don't find new links
     if (allLinks.size === lastLinksCount) {
       stableStrike++;
       if (stableStrike >= 3) {
@@ -182,8 +175,8 @@ async function* collectExhibitorLinksUniversal(
       if (!clicked) break;
       await randomDelay(2000, 3000);
     } else { // infiniteScroll
-      // Just continue looping, autoScroll does the job
-      if (pageNum > 20) break; // Hard limit for infinite scroll
+      
+      if (pageNum > 20) break; // limit for infinite scroll
       pageNum++;
     }
   }
@@ -194,9 +187,7 @@ async function* collectExhibitorLinksUniversal(
   };
 }
 
-// ========================================
-// Phase 2: Scrape detail (Deep Universal)
-// ========================================
+// scrape
 async function scrapeExhibitorDetailUniversal(
   context: BrowserContext,
   url: string,
@@ -234,7 +225,7 @@ async function scrapeExhibitorDetailUniversal(
         text: (main as HTMLElement).innerText.substring(0, 35000),
         emails,
         phones,
-        allLinksEnriched: enrichedLinks.slice(0, 150) // More links to catch footer socials
+        allLinksEnriched: enrichedLinks.slice(0, 150)
       };
     });
 
@@ -259,9 +250,7 @@ Indices : Un lien avec label="LinkedIn" est le bon, même si l'URL est cryptique
   }
 }
 
-// ========================================
-// Phase 3: Orchestrator
-// ========================================
+// orchrestation
 export interface ScrapeProgressEvent {
   type: 'status' | 'progress' | 'exhibitor' | 'done' | 'error';
   message?: string;
@@ -271,7 +260,7 @@ export interface ScrapeProgressEvent {
 }
 
 export async function* scrapeExhibitorsStream(url: string): AsyncGenerator<ScrapeProgressEvent> {
-  yield { type: 'status', message: `🚀 Initialisation du moteur Tout-Terrain...` };
+  yield { type: 'status', message: `Initialisation du moteur Tout-Terrain...` };
   const browser = await chromium.launch({ headless: true });
 
   try {

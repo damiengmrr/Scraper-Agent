@@ -1,4 +1,4 @@
-# 🚀 Shaarp Universal Expo Scraper (V2 Tout-Terrain)
+# 🚀 Shaarp Agent Scraper
 
 > **L'agent d'extraction B2B intelligent qui transforme n'importe quel site de salon en une base de données qualifiée.**
 

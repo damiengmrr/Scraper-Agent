@@ -67,7 +67,7 @@ export default function Home() {
         const statusMsg: Message = {
           id: (Date.now() + 1).toString(),
           role: 'assistant',
-          content: '🔍 Extraction en cours...',
+          content: 'Extraction en cours...',
         };
         setMessages(prev => [...prev, statusMsg]);
 
@@ -139,7 +139,7 @@ export default function Home() {
                       const updated = [...prev];
                       updated[updated.length - 1] = {
                         ...updated[updated.length - 1],
-                        content: `✅ Extraction terminée ! ${collectedExhibitors.length} exposants récupérés avec les informations détaillées.`,
+                        content: `Extraction terminée ! ${collectedExhibitors.length} exposants récupérés avec les informations détaillées.`,
                       };
                       return updated;
                     });

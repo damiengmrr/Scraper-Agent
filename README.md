@@ -1,79 +1,274 @@
-# 🚀 Shaarp Agent Scraper
+# Shaarp Agent Scraper
 
-> **L'agent d'extraction B2B intelligent qui transforme n'importe quel site de salon en une base de données qualifiée.**
+> Agent d’extraction B2B intelligent pour récupérer automatiquement les exposants d’un salon professionnel à partir d’une simple URL.
 
-Bienvenue dans l'**Universal Deep Scraper**, une solution de prospection automatisée développée pour **Shaarp**. Cet agent n'est pas un simple scraper statique : il utilise l'**Intelligence Artificielle** pour comprendre dynamiquement la structure de n'importe quel site web de salon professionnel et en extraire l'intégralité des données de contact.
+## Présentation
 
----
+Shaarp Agent Scraper est une application web développée pour automatiser l’extraction d’exposants depuis des sites de salons professionnels.
 
-## Caractéristiques "Tout-Terrain"
+L’utilisateur colle une URL dans l’interface, puis l’application :
+- analyse la structure du site,
+- détecte la logique de navigation,
+- collecte les fiches exposants,
+- extrait les informations utiles,
+- affiche les résultats dans un tableau,
+- permet l’export des données en CSV.
 
-### 🤖 Analyse de Structure par LLM (V2)
-Fini les sélecteurs CSS codés en dur. À chaque nouveau site, l'agent effectue une **Phase 0 d'analyse** : il observe les liens, les boutons et le comportement de la page pour identifier automatiquement comment naviguer et où se cachent les fiches exposants.
-
-### 🔄 Moteur de Navigation Hybride
-Que le salon utilise une **Pagination classique**, un **Défilement Infini (Infinite Scroll)** ou un bouton **"Charger plus"**, l'agent s'adapte. Il moissonne les liens en boucle jusqu'à l'épuisement total de la liste.
-
-### 📱 Extraction "Icon-Aware" (Socials & Contacts)
-L'agent ne se contente pas de lire le texte. Il analyse les métadonnées des icônes (`aria-label`, `title`, `alt`) pour identifier les réseaux sociaux (LinkedIn, X, Facebook, Instagram, etc.) même lorsqu'aucun texte n'est présent.
-
-### 🔬 Scan DOM Profond
-- **Emails & Téléphones** : Extraction directe des liens `mailto:` et `tel:` cachés dans le code.
-- **Nettoyage Anti-Obstacle** : Suppression automatique des bannières de cookies et modales RGPD qui bloquent la navigation.
-- **Parallélisation Massive** : Traitement par batchs de 5 fiches simultanées pour une vitesse d'exécution optimale.
+Le projet a été conçu comme un MVP clair, rapide à prendre en main et facilement démontrable.
 
 ---
 
-## 🛠 Stack Technique
+## Fonctionnalités
 
-- **Framework** : [Next.js 16](https://nextjs.org/) (App Router & Turbopack)
-- **IA Orchestration** : [Vercel AI SDK](https://sdk.vercel.ai/) & [GPT-4.1-mini](https://openai.com/)
-- **Automation** : [Playwright](https://playwright.dev/) (Headless Browser)
-- **Styling** : TailwindCSS & Framer Motion (Animations dynamiques)
-- **Data** : Zod (Validation stricte des schémas de contact)
-
----
-
-## 🚀 Installation Rapide
-
-1. **Cloner le dépôt** :
-   ```bash
-   git clone https://github.com/supermedmed-hash/Challenge-48H.git
-   cd shaarp-scraper
-   ```
-
-2. **Installer les dépendances** :
-   ```bash
-   npm install
-   npx playwright install chromium
-   ```
-
-3. **Configuration** :
-   Créez un fichier `.env.local` à la racine et ajoutez votre clé OpenAI :
-   ```env
-   OPENAI_API_KEY=votre_cle_ici
-   ```
-
-4. **Lancer l'application** :
-   ```bash
-   npm run dev
-   ```
+- Saisie d’une URL via une interface conversationnelle
+- Détection automatique du lien à analyser
+- Scraping intelligent avec navigateur headless
+- Analyse dynamique de la structure d’un site
+- Gestion de plusieurs modes de navigation :
+  - pagination classique
+  - bouton “charger plus”
+  - défilement infini
+- Nettoyage automatique des obstacles de navigation :
+  - bannières cookies
+  - modales RGPD
+  - overlays bloquants
+- Extraction de données exposants :
+  - nom
+  - site web
+  - stand
+  - email
+  - téléphone
+  - LinkedIn
+  - Twitter / X
+- Suivi de progression pendant l’analyse
+- Affichage des résultats dans un tableau
+- Export CSV des leads extraits
 
 ---
 
-## 📖 Utilisation
+## Stack technique
 
-1. **Lancez le scan** : Fournissez simplement l'URL de la liste des exposants (ex: MWC Barcelona, VivaTech).
-2. **Suivez le robot** : Le chat affiche en temps réel les étapes (Analyse de structure -> Collecte -> Extraction).
-3. **Exportez vos Leads** : Une fois terminé, cliquez sur **"Export CSV"** pour obtenir votre fichier de prospection prêt à l'emploi.
+### Front-end
+- Next.js 16
+- React 19
+- TypeScript
+- Tailwind CSS
+- composants UI
+
+### Back-end / logique
+- Next.js App Router
+- route API `/api/chat`
+- Vercel AI SDK
+- OpenAI
+
+### Scraping / extraction
+- Playwright
+- Zod
+- PapaParse
 
 ---
 
-## 🏗️ Architecture des Branches
+## Prérequis
 
-- **`master`** : Branche principale stable, robuste et optimisée.
-- **`DEV`** : Branche de développement pour les itérations UI/UX et les tests de nouvelles fonctionnalités.
+Avant de lancer le projet, il faut avoir installé :
+
+- **Node.js 18 ou supérieur**
+- **npm**
+- une **connexion internet active**
+- une **clé API OpenAI**
 
 ---
 
-*Développé avec ❤️ pour Shaarp par Antigravity Agent.*
+## Installation
+
+### 1. Cloner le dépôt
+
+```bash
+git clone https://github.com/damiengmrr/Scraper-Agent.git
+cd Scraper-Agent
+```
+
+### 2. Installer les dépendances
+
+```bash
+npm install
+```
+
+### 3. Installer Chromium pour Playwright
+
+Le projet utilise Playwright pour piloter un navigateur headless pendant le scraping.
+
+```bash
+npx playwright install chromium
+```
+
+### 4. Configurer les variables d’environnement
+
+Crée un fichier `.env.local` à la racine du projet :
+
+```env
+OPENAI_API_KEY=your_api_key_here
+```
+
+---
+
+## Lancer le projet
+
+### En développement
+
+```bash
+npm run dev
+```
+
+Puis ouvre dans ton navigateur :
+
+```bash
+http://localhost:3000
+```
+
+### En production locale
+
+Build du projet :
+
+```bash
+npm run build
+```
+
+Lancer le serveur :
+
+```bash
+npm run start
+```
+
+---
+
+## Scripts disponibles
+
+```bash
+npm run dev
+npm run build
+npm run start
+npm run lint
+```
+
+---
+
+## Utilisation
+
+1. Lance l’application
+2. Colle l’URL d’une page de salon professionnel ou d’une liste d’exposants
+3. Démarre l’analyse
+4. Suis les étapes affichées dans l’interface :
+   - analyse de structure
+   - collecte des liens
+   - extraction des fiches
+   - affichage des résultats
+5. Consulte les exposants extraits
+6. Exporte les données au format CSV
+
+---
+
+## Structure du projet
+
+```bash
+Scraper-Agent/
+├── public/
+├── src/
+│   ├── app/
+│   │   ├── api/
+│   │   │   └── chat/
+│   │   ├── favicon.ico
+│   │   ├── globals.css
+│   │   ├── layout.tsx
+│   │   └── page.tsx
+│   ├── components/
+│   │   ├── ui/
+│   │   ├── Chat.tsx
+│   │   ├── ExhibitorsTable.tsx
+│   │   └── ScrapeProgress.tsx
+│   └── lib/
+│       ├── tools/
+│       │   └── scrapeExhibitors.ts
+│       ├── schema.ts
+│       └── utils.ts
+├── .gitignore
+├── README.md
+├── components.json
+├── eslint.config.mjs
+├── next-env.d.ts
+├── next.config.ts
+├── package-lock.json
+├── package.json
+├── postcss.config.mjs
+└── tsconfig.json
+```
+
+---
+
+## Organisation du projet
+
+### `src/app`
+Contient la structure principale de l’application Next.js :
+- `page.tsx` : page principale
+- `layout.tsx` : layout global
+- `globals.css` : styles globaux
+- `api/chat` : route API pour traiter les messages et lancer le scraping
+
+### `src/components`
+Contient les composants d’interface :
+- `Chat.tsx` : interface conversationnelle
+- `ExhibitorsTable.tsx` : tableau des exposants extraits
+- `ScrapeProgress.tsx` : affichage de la progression du scraping
+- `ui/` : composants d’interface réutilisables
+
+### `src/lib`
+Contient la logique métier du projet :
+- `tools/scrapeExhibitors.ts` : moteur principal de scraping
+- `schema.ts` : schémas de validation des données
+- `utils.ts` : fonctions utilitaires
+
+---
+
+## Fonctionnement global
+
+### 1. Envoi d’une URL
+L’utilisateur renseigne l’URL d’une page de salon ou d’une page listant des exposants.
+
+### 2. Détection du lien
+L’application détecte automatiquement le lien transmis dans le message.
+
+### 3. Analyse de la structure
+Le scraper analyse la logique de navigation du site pour comprendre comment récupérer toutes les fiches disponibles.
+
+### 4. Collecte des fiches exposants
+Le moteur explore les pages, récupère les liens utiles et s’adapte au fonctionnement du site.
+
+### 5. Extraction des données
+Chaque fiche exposant est ensuite visitée pour extraire les informations utiles.
+
+### 6. Affichage et export
+Les résultats sont affichés dans un tableau puis exportables en CSV.
+
+---
+
+## Données extraites
+
+Chaque exposant peut contenir les informations suivantes :
+
+```ts
+{
+  name: string
+  website: string
+  booth: string
+  linkedin: string
+  twitter: string
+  email: string
+  phone: string
+}
+```
+
+---
+
+## Auteur
+
+Projet développé dans le cadre d’un challenge de 48h autour d’un agent IA de scraping et d’extraction d’exposants pour salons professionnels.

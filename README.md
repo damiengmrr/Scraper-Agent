@@ -6,7 +6,7 @@ Bienvenue dans l'**Universal Deep Scraper**, une solution de prospection automat
 
 ---
 
-## 🔥 Caractéristiques "Tout-Terrain"
+## Caractéristiques "Tout-Terrain"
 
 ### 🤖 Analyse de Structure par LLM (V2)
 Fini les sélecteurs CSS codés en dur. À chaque nouveau site, l'agent effectue une **Phase 0 d'analyse** : il observe les liens, les boutons et le comportement de la page pour identifier automatiquement comment naviguer et où se cachent les fiches exposants.
